@@ -1,0 +1,57 @@
+# Environment
+.env
+.env.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data
+*.pdf
+data/
+*.db
+*.sqlite
+
+# Docker
+postgres_data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Cloudflare
+cloudflare/
+*.jpg
+
+# Installers
+*.msi
+*.exe
+
+# Large context files
+DCPAD*.md
+KST*.md
+MASTER_CONTEXT.md
+
+# Node
+node_modules/
+package-lock.json
+
+# XML data
+*.xml

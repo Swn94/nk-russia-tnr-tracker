@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NK-Russia Human Rights Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>NK-Russia Human Rights Chain of Command Tracker</h1>
+            <p class="subtitle">북한-러시아 인권 침해 책임 사슬 추적 시스템</p>
+        </div>
+        <nav class="nav">
+            <a href="#overview" class="nav-link active">Overview</a>
+            <a href="#cases" class="nav-link">Cases</a>
+            <a href="#actors" class="nav-link">Actors</a>
+            <a href="#sanctions" class="nav-link">Sanctions</a>
+            <a href="#chain" class="nav-link">Chain of Command</a>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- Overview Section -->
+        <section id="overview" class="section">
+            <h2>Dashboard Overview</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-value" id="total-cases">--</div>
+                    <div class="stat-label">Total Cases</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👤</div>
+                    <div class="stat-value" id="total-actors">--</div>
+                    <div class="stat-label">Tracked Actors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚖️</div>
+                    <div class="stat-value" id="sanctions-candidates">--</div>
+                    <div class="stat-label">Sanctions Candidates</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📄</div>
+                    <div class="stat-value" id="total-evidence">--</div>
+                    <div class="stat-label">Evidence Items</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Cases by TNR Type</h3>
+                    <canvas id="tnr-type-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Cases by Country</h3>
+                    <canvas id="country-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cases Section -->
+        <section id="cases" class="section hidden">
+            <h2>Human Rights Cases</h2>
+
+            <div class="filters">
+                <select id="case-status-filter">
+                    <option value="">All Statuses</option>
+                    <option value="open">Open</option>
+                    <option value="under_investigation">Under Investigation</option>
+                    <option value="documented">Documented</option>
+                    <option value="closed">Closed</option>
+                </select>
+                <select id="case-tnr-filter">
+                    <option value="">All TNR Types</option>
+                    <option value="direct_attack">Direct Attack</option>
+                    <option value="co_opting">Co-opting</option>
+                    <option value="mobility_controls">Mobility Controls</option>
+                    <option value="threats_from_distance">Threats from Distance</option>
+                </select>
+                <input type="text" id="case-search" placeholder="Search cases...">
+                <button id="case-search-btn" class="btn">Search</button>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table" id="cases-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>TNR Type</th>
+                            <th>Country</th>
+                            <th>Date</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cases-tbody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Actors Section -->
+        <section id="actors" class="section hidden">
+            <h2>Tracked Actors</h2>
+
+            <div class="filters">
+                <select id="actor-type-filter">
+                    <option value="">All Types</option>
+                    <option value="perpetrator">Perpetrator</option>
+                    <option value="victim">Victim</option>
+                    <option value="entity">Entity</option>
+                    <option value="official">Official</option>
+                </select>
+                <input type="text" id="actor-search" placeholder="Search actors...">
+                <button id="actor-search-btn" class="btn">Search</button>
+            </div>
+
+            <div class="cards-grid" id="actors-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Sanctions Section -->
+        <section id="sanctions" class="section hidden">
+            <h2>Sanctions Candidates</h2>
+
+            <div class="filters">
+                <select id="sanction-status-filter">
+                    <option value="">All Statuses</option>
+                    <option value="candidate">Candidate</option>
+                    <option value="proposed">Proposed</option>
+                    <option value="under_review">Under Review</option>
+                    <option value="sanctioned">Sanctioned</option>
+                </select>
+                <select id="sanction-priority-filter">
+                    <option value="">All Priorities</option>
+                    <option value="1">Priority 1 (Highest)</option>
+                    <option value="2">Priority 2</option>
+                    <option value="3">Priority 3</option>
+                    <option value="4">Priority 4</option>
+                    <option value="5">Priority 5 (Lowest)</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table" id="sanctions-table">
+                    <thead>
+                        <tr>
+                            <th>Actor</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Evidence Strength</th>
+                            <th>Legal Basis</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sanctions-tbody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Chain of Command Section -->
+        <section id="chain" class="section hidden">
+            <h2>Chain of Command Analysis</h2>
+
+            <div class="chain-search">
+                <input type="text" id="chain-actor-input" placeholder="Enter actor name or ID...">
+                <button id="chain-search-btn" class="btn btn-primary">Analyze Chain</button>
+            </div>
+
+            <div class="chain-visualization" id="chain-viz">
+                <p class="placeholder">Select an actor to visualize their chain of command</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>NK-Russia Human Rights Chain of Command Tracker | Data sources: data.go.kr, HUDOC, Freedom House, UN OHCHR, ICC, OSCE</p>
+        <p>Last updated: <span id="last-updated">--</span></p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
