@@ -1,6 +1,19 @@
 # NK-Russia Human Rights Chain of Command Tracker
 
+[![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-blue?logo=github)](https://swn94.github.io/nk-russia-tnr-tracker/)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/Swn94/nk-russia-tnr-tracker/pages-deploy.yml?label=deploy&logo=githubactions)](https://github.com/Swn94/nk-russia-tnr-tracker/actions)
+[![Python](https://img.shields.io/badge/python-3.11+-3776AB?logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql&logoColor=white)](https://postgresql.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> **🔬 PROTOTYPE** | **OSINT Research Tool** | **Vibe Coding Portfolio Project**
+
 북한-러시아 관련 인권 침해 '책임 사슬(Chain of Command)' 추적 시스템
+
+⚠️ **This is a prototyping OSINT (Open Source Intelligence) product for research and educational purposes.**
+
+---
 
 ## Overview
 
@@ -45,8 +58,8 @@ northkorea_project/
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/northkorea_project.git
-cd northkorea_project
+git clone https://github.com/Swn94/nk-russia-tnr-tracker.git
+cd nk-russia-tnr-tracker
 ```
 
 2. **Set up environment**
