@@ -5,7 +5,7 @@ from enum import Enum
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class ActorType(str, Enum):
@@ -27,10 +27,27 @@ class ActorBase(BaseModel):
     organization: Optional[str] = Field(None, max_length=255)
     position: Optional[str] = Field(None, max_length=255)
     date_of_birth: Optional[date] = None
-    aliases: list[str] = Field(default_factory=list)
+    aliases: Optional[list[str]] = Field(default_factory=list)
     description: Optional[str] = None
     photo_url: Optional[str] = Field(None, max_length=500)
-    metadata: dict = Field(default_factory=dict)
+    metadata: Optional[dict] = Field(default_factory=dict)
+
+    @field_validator('aliases', mode='before')
+    @classmethod
+    def ensure_list(cls, v):
+        if v is None:
+            return []
+        return v
+
+    @field_validator('metadata', mode='before')
+    @classmethod
+    def ensure_dict(cls, v):
+        if v is None:
+            return {}
+        if isinstance(v, str):
+            import json
+            return json.loads(v)
+        return v
 
 
 class ActorCreate(ActorBase):
@@ -73,11 +90,35 @@ class ChainOfCommand(BaseModel):
     organization: Optional[str] = Field(None, max_length=255)
     start_date: Optional[date] = None
     end_date: Optional[date] = None
-    evidence_ids: list[UUID] = Field(default_factory=list)
-    confidence_score: float = Field(0.5, ge=0, le=1)
+    evidence_ids: Optional[list[UUID]] = Field(default_factory=list)
+    confidence_score: Optional[float] = Field(0.5, ge=0, le=1)
     notes: Optional[str] = None
-    metadata: dict = Field(default_factory=dict)
+    metadata: Optional[dict] = Field(default_factory=dict)
     created_at: datetime
+
+    @field_validator('evidence_ids', mode='before')
+    @classmethod
+    def ensure_uuid_list(cls, v):
+        if v is None:
+            return []
+        return v
+
+    @field_validator('metadata', mode='before')
+    @classmethod
+    def ensure_dict(cls, v):
+        if v is None:
+            return {}
+        if isinstance(v, str):
+            import json
+            return json.loads(v)
+        return v
+
+    @field_validator('confidence_score', mode='before')
+    @classmethod
+    def ensure_float(cls, v):
+        if v is None:
+            return 0.5
+        return float(v)
 
     class Config:
         from_attributes = True

@@ -5,7 +5,7 @@ from enum import Enum
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class CaseStatus(str, Enum):
@@ -39,10 +39,27 @@ class CaseBase(BaseModel):
     country: Optional[str] = Field(None, max_length=100)
     summary: Optional[str] = None
     details: Optional[str] = None
-    source_urls: list[str] = Field(default_factory=list)
-    tags: list[str] = Field(default_factory=list)
+    source_urls: Optional[list[str]] = Field(default_factory=list)
+    tags: Optional[list[str]] = Field(default_factory=list)
     severity_score: Optional[int] = Field(None, ge=1, le=10)
-    metadata: dict = Field(default_factory=dict)
+    metadata: Optional[dict] = Field(default_factory=dict)
+
+    @field_validator('source_urls', 'tags', mode='before')
+    @classmethod
+    def ensure_list(cls, v):
+        if v is None:
+            return []
+        return v
+
+    @field_validator('metadata', mode='before')
+    @classmethod
+    def ensure_dict(cls, v):
+        if v is None:
+            return {}
+        if isinstance(v, str):
+            import json
+            return json.loads(v)
+        return v
 
 
 class CaseCreate(CaseBase):

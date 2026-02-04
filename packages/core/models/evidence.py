@@ -5,7 +5,7 @@ from enum import Enum
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class EvidenceType(str, Enum):
@@ -36,7 +36,17 @@ class EvidenceBase(BaseModel):
     verification_date: Optional[date] = None
     raw_content: Optional[str] = None
     processed_content: Optional[str] = None
-    metadata: dict = Field(default_factory=dict)
+    metadata: Optional[dict] = Field(default_factory=dict)
+
+    @field_validator('metadata', mode='before')
+    @classmethod
+    def ensure_dict(cls, v):
+        if v is None:
+            return {}
+        if isinstance(v, str):
+            import json
+            return json.loads(v)
+        return v
 
 
 class EvidenceCreate(EvidenceBase):
@@ -88,15 +98,39 @@ class SanctionsCandidateBase(BaseModel):
     actor_id: UUID
     status: SanctionStatus = Field(default=SanctionStatus.CANDIDATE)
     recommendation_date: Optional[date] = None
-    proposed_sanctions: list[str] = Field(default_factory=list)
+    proposed_sanctions: Optional[list[str]] = Field(default_factory=list)
     legal_basis: Optional[str] = None
-    supporting_cases: list[UUID] = Field(default_factory=list)
+    supporting_cases: Optional[list[UUID]] = Field(default_factory=list)
     evidence_strength_score: Optional[float] = Field(None, ge=0, le=1)
     priority_level: Optional[int] = Field(None, ge=1, le=5)
     reviewing_body: Optional[str] = Field(None, max_length=255)
     decision_date: Optional[date] = None
     decision_notes: Optional[str] = None
-    metadata: dict = Field(default_factory=dict)
+    metadata: Optional[dict] = Field(default_factory=dict)
+
+    @field_validator('proposed_sanctions', 'supporting_cases', mode='before')
+    @classmethod
+    def ensure_list(cls, v):
+        if v is None:
+            return []
+        return v
+
+    @field_validator('metadata', mode='before')
+    @classmethod
+    def ensure_dict(cls, v):
+        if v is None:
+            return {}
+        if isinstance(v, str):
+            import json
+            return json.loads(v)
+        return v
+
+    @field_validator('evidence_strength_score', mode='before')
+    @classmethod
+    def ensure_float(cls, v):
+        if v is None:
+            return None
+        return float(v)
 
 
 class SanctionsCandidateCreate(SanctionsCandidateBase):
