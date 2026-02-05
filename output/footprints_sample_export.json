@@ -1,0 +1,304 @@
+{
+  "metadata": {
+    "source": "TJWG NK FOOTPRINTS 2.0",
+    "source_url": "https://nkfootprints.tjwg.org/en/library",
+    "export_date": "2026-02-05T04:30:00Z",
+    "export_format": "JSON-LD (Schema.org)",
+    "connector": "TJWGFootprintsConnector v1.0",
+    "language": "en"
+  },
+  "victims": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "external_id": "fp_victim_001",
+      "name": "Choi Jun-kyung",
+      "name_korean": "최준경",
+      "victim_type": "war_abductee",
+      "victim_type_korean": "전쟁납북자",
+      "gender": "male",
+      "nationality": "South Korean",
+      "incident": {
+        "type": "abduction",
+        "date": "1950-07-XX",
+        "date_precision": "month",
+        "location": {
+          "country": "South Korea",
+          "region": "Seoul",
+          "description": "During Korean War invasion"
+        },
+        "circumstances": "Abducted by North Korean forces during the Korean War (1950-1953). Civilian victims were systematically taken during the occupation of Seoul.",
+        "perpetrator_organization": "Korean People's Army (KPA)"
+      },
+      "current_status": "unknown",
+      "last_known_location": "North Korea",
+      "related_proceedings": [],
+      "source_urls": [
+        "https://nkfootprints.info/en/entity/8ynem87gjvu"
+      ],
+      "documentation_status": "documented",
+      "fetch_date": "2026-02-05"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "external_id": "fp_victim_002",
+      "name": "Kim Jae-bong",
+      "name_korean": "김재봉",
+      "victim_type": "war_abductee",
+      "victim_type_korean": "전쟁납북자",
+      "gender": "male",
+      "nationality": "South Korean",
+      "incident": {
+        "type": "abduction",
+        "date": "1950-XX-XX",
+        "date_precision": "year",
+        "location": {
+          "country": "South Korea",
+          "description": "During Korean War"
+        },
+        "circumstances": "Abducted during the Korean War period (1950-1953).",
+        "perpetrator_organization": "Korean People's Army (KPA)"
+      },
+      "current_status": "unknown",
+      "last_known_location": "North Korea",
+      "source_urls": [
+        "https://nkfootprints.info/en/entity/tse1dllkor"
+      ],
+      "documentation_status": "documented",
+      "fetch_date": "2026-02-05"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "external_id": "fp_victim_003",
+      "name": "Lee Hak-su",
+      "name_korean": "이학수",
+      "victim_type": "detained",
+      "victim_type_korean": "구금자",
+      "gender": "male",
+      "nationality": "North Korean",
+      "incident": {
+        "type": "arbitrary_detention",
+        "date": "2009-01-23",
+        "date_precision": "day",
+        "location": {
+          "country": "North Korea",
+          "description": "Arrested by military without warrant"
+        },
+        "circumstances": "Arrested on 23 January 2009 by the military of North Korea without a warrant being presented. Transferred to the office of the Security Bureau for investigation.",
+        "perpetrator_organization": "Ministry of State Security (MSS)",
+        "perpetrator_organization_korean": "국가보위성"
+      },
+      "current_status": "unknown",
+      "last_known_location": "Security Bureau detention facility",
+      "legal_proceedings": [
+        {
+          "forum": "UN Working Group on Arbitrary Detention",
+          "status": "documented"
+        }
+      ],
+      "documentation_status": "documented",
+      "fetch_date": "2026-02-05"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "external_id": "fp_victim_004",
+      "name": "Hwang Won",
+      "name_korean": "황원",
+      "victim_type": "abductee",
+      "victim_type_korean": "납북자",
+      "gender": "male",
+      "nationality": "South Korean",
+      "incident": {
+        "type": "hijacking_abduction",
+        "date": "1969-12-11",
+        "date_precision": "day",
+        "location": {
+          "country": "Airspace over East Sea",
+          "description": "Korean Air Lines Flight YS-11 hijacking"
+        },
+        "circumstances": "Passenger on Korean Air Lines YS-11 (Flight 2311) which was hijacked on December 11, 1969 while en route from Gangneung to Seoul. The aircraft was diverted to North Korea with 51 passengers and crew.",
+        "perpetrator_organization": "North Korean agents"
+      },
+      "current_status": "presumed_deceased",
+      "last_known_location": "North Korea",
+      "related_proceedings": [
+        {
+          "type": "family_petition",
+          "organization": "1969 KAL Abductees' Families Association"
+        }
+      ],
+      "source_urls": [],
+      "documentation_status": "documented",
+      "fetch_date": "2026-02-05"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "external_id": "fp_victim_005",
+      "name": "Lee Soon-nyeu's Father",
+      "name_korean": "이순녀 부친",
+      "victim_type": "war_abductee",
+      "victim_type_korean": "전쟁납북자",
+      "gender": "male",
+      "nationality": "South Korean",
+      "occupation": "Government official",
+      "incident": {
+        "type": "abduction",
+        "date": "1950-XX-XX",
+        "date_precision": "year",
+        "location": {
+          "country": "South Korea",
+          "description": "Detained while fishing, weeks after North Korean invasion"
+        },
+        "circumstances": "The last time Lee Soon-nyeu saw her father, he was being led away in shackles. It was 1950, weeks after North Korean forces had invaded South Korea. Soldiers had detained her father, who worked for the South Korean government, while he was out fishing. He was tortured at a local millhouse before being taken to the North.",
+        "perpetrator_organization": "Korean People's Army (KPA)"
+      },
+      "current_status": "unknown",
+      "last_known_location": "North Korea",
+      "witness_testimony": {
+        "witness": "Lee Soon-nyeu (daughter)",
+        "description": "Last seen being led away in shackles, tortured at local millhouse"
+      },
+      "documentation_status": "documented",
+      "fetch_date": "2026-02-05"
+    }
+  ],
+  "perpetrators": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "external_id": "fp_perp_org_001",
+      "name": "Ministry of State Security",
+      "name_korean": "국가보위성",
+      "abbreviation": "MSS",
+      "perpetrator_type": "state_organ",
+      "country": "North Korea",
+      "description": "North Korea's primary intelligence and secret police agency. Responsible for counterintelligence, political surveillance, and internal security. According to TJWG research, 8 out of 10 North Koreans who vanish do so under MSS control.",
+      "related_victim_count": "80%+ of enforced disappearances",
+      "source_url": "https://en.tjwg.org/2024/10/31/8-out-of-10-north-koreans-vanish-under-the-ministry-of-state-securitys-control/"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "external_id": "fp_perp_org_002",
+      "name": "Ministry of People's Security",
+      "name_korean": "사회안전성",
+      "abbreviation": "MPS",
+      "perpetrator_type": "state_organ",
+      "country": "North Korea",
+      "description": "North Korea's police and public security agency. Handles regular law enforcement, prison camps (kwanliso), and population control.",
+      "related_functions": ["law_enforcement", "prison_administration", "population_control"]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "external_id": "fp_perp_org_003",
+      "name": "Korean People's Army",
+      "name_korean": "조선인민군",
+      "abbreviation": "KPA",
+      "perpetrator_type": "military",
+      "country": "North Korea",
+      "description": "Military forces of North Korea. Responsible for mass abductions during the Korean War (1950-1953).",
+      "historical_period": "1950-1953 Korean War",
+      "related_victim_types": ["war_abductee", "pow"]
+    }
+  ],
+  "statistics": {
+    "source": "TJWG FOOTPRINTS Database",
+    "as_of_date": "2024",
+    "korean_war_victims": {
+      "1949": 9,
+      "1950": 88996,
+      "1951": 3158,
+      "note": "Civilian victims during Korean War period"
+    },
+    "recent_research": {
+      "total_victims_documented": 113,
+      "family_or_relatives": {
+        "count": 54,
+        "percentage": 47.8,
+        "breakdown": {
+          "immediate_family": 27,
+          "close_relatives": 27
+        }
+      }
+    },
+    "mss_responsibility": {
+      "percentage": 80,
+      "description": "8 out of 10 North Koreans who vanish do so under MSS control"
+    }
+  },
+  "partner_organizations": [
+    {
+      "name": "Transitional Justice Working Group",
+      "abbreviation": "TJWG",
+      "role": "lead_organization",
+      "joined": "2017-09"
+    },
+    {
+      "name": "Citizens' Alliance for North Korean Human Rights",
+      "abbreviation": "NKHR",
+      "role": "founding_partner",
+      "joined": "2017-09"
+    },
+    {
+      "name": "Korean War Abductees' Family Union",
+      "abbreviation": "KWAFU",
+      "role": "partner",
+      "joined": "2019-03"
+    },
+    {
+      "name": "Justice for North Korea",
+      "abbreviation": "JFNK",
+      "role": "partner",
+      "joined": "2019-04"
+    },
+    {
+      "name": "1969 KAL Abductees' Families Association",
+      "role": "partner",
+      "joined": "2019-04"
+    },
+    {
+      "name": "Mulmangcho",
+      "role": "partner",
+      "joined": "2020-11"
+    },
+    {
+      "name": "No Chain",
+      "role": "partner",
+      "joined": "2021-01"
+    }
+  ],
+  "data_categories": [
+    {
+      "name": "Victims",
+      "description": "Individuals subjected to arbitrary detention, abduction, or enforced disappearance",
+      "subtypes": ["war_abductee", "pow", "defector", "detained", "disappeared", "hijacking_victim"]
+    },
+    {
+      "name": "Perpetrators",
+      "description": "State organs and officials responsible for violations",
+      "subtypes": ["state_organ", "official", "military", "security_agency"]
+    },
+    {
+      "name": "Proceedings",
+      "description": "Legal actions and investigations seeking redress",
+      "subtypes": ["un_inquiry", "un_resolution", "domestic_court", "family_petition"]
+    },
+    {
+      "name": "Testimonials",
+      "description": "Witness accounts and survivor testimonies"
+    },
+    {
+      "name": "HR Instruments",
+      "description": "Relevant human rights treaties and resolutions"
+    },
+    {
+      "name": "NK Resources",
+      "description": "North Korean official documents and resources"
+    }
+  ]
+}
