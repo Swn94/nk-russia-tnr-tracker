@@ -16,6 +16,7 @@ from packages.etl.connectors import (
     UNOHCHRConnector,
     ICCConnector,
     OSCEConnector,
+    TJWGFootprintsConnector,
 )
 from packages.etl.processors import MarkerConverter, DocumentChunker
 
@@ -34,6 +35,7 @@ class ETLPipeline:
             "un_ohchr": UNOHCHRConnector,
             "icc": ICCConnector,
             "osce": OSCEConnector,
+            "tjwg_footprints": TJWGFootprintsConnector,
         }
         self.pdf_converter = MarkerConverter()
         self.chunker = DocumentChunker()
@@ -144,7 +146,6 @@ class ETLPipeline:
         for item in data:
             try:
                 # Determine insert or update based on unique keys
-                # This is a simplified implementation
                 if table == "cases":
                     await self._upsert_case(db, item)
                     created += 1
@@ -154,10 +155,34 @@ class ETLPipeline:
                 elif table == "evidence":
                     await self._insert_evidence(db, item)
                     created += 1
+                elif table == "defector_stats":
+                    result = await self._upsert_defector_stats(db, item)
+                    if result == "created":
+                        created += 1
+                    else:
+                        updated += 1
+                elif table == "footprints_victims":
+                    result = await self._upsert_footprints_victim(db, item)
+                    if result == "created":
+                        created += 1
+                    else:
+                        updated += 1
+                elif table == "footprints_perpetrators":
+                    result = await self._upsert_footprints_perpetrator(db, item)
+                    if result == "created":
+                        created += 1
+                    else:
+                        updated += 1
+                elif table == "footprints_proceedings":
+                    result = await self._upsert_footprints_proceeding(db, item)
+                    if result == "created":
+                        created += 1
+                    else:
+                        updated += 1
 
             except Exception as e:
                 errors.append({
-                    "item": item.get("title") or item.get("name"),
+                    "item": item.get("title") or item.get("name") or item.get("year"),
                     "error": str(e),
                 })
 
@@ -236,6 +261,216 @@ class ETLPipeline:
             data.get("processed_content"),
             data.get("metadata", {}),
         )
+
+    async def _upsert_defector_stats(self, db, data: dict) -> str:
+        """Insert or update defector statistics from data.go.kr."""
+        import json
+        category = data.get("category", "")
+        raw_json = json.dumps(data.get("raw_data", {}))
+
+        if "yearly" in category:
+            result = await db.execute(
+                """
+                INSERT INTO defector_stats_yearly (year, total, male, female, raw_data)
+                VALUES ($1, $2, $3, $4, $5::jsonb)
+                ON CONFLICT (year) DO UPDATE SET
+                    total = EXCLUDED.total,
+                    male = EXCLUDED.male,
+                    female = EXCLUDED.female,
+                    raw_data = EXCLUDED.raw_data,
+                    updated_at = CURRENT_TIMESTAMP
+                RETURNING (xmax = 0) AS is_insert
+                """,
+                int(data.get("year") or 0),
+                int(data.get("total") or 0),
+                int(data.get("male") or 0),
+                int(data.get("female") or 0),
+                raw_json,
+            )
+        elif "age" in category:
+            from datetime import date
+            result = await db.execute(
+                """
+                INSERT INTO defector_stats_age (age_group, count, as_of_date, raw_data)
+                VALUES ($1, $2, $3, $4::jsonb)
+                ON CONFLICT (age_group, as_of_date) DO UPDATE SET
+                    count = EXCLUDED.count,
+                    raw_data = EXCLUDED.raw_data,
+                    updated_at = CURRENT_TIMESTAMP
+                RETURNING (xmax = 0) AS is_insert
+                """,
+                data.get("age_group"),
+                int(data.get("count") or 0),
+                date.today(),
+                raw_json,
+            )
+        elif "occupation" in category:
+            from datetime import date
+            result = await db.execute(
+                """
+                INSERT INTO defector_stats_occupation (occupation, count, as_of_date, raw_data)
+                VALUES ($1, $2, $3, $4::jsonb)
+                ON CONFLICT (occupation, as_of_date) DO UPDATE SET
+                    count = EXCLUDED.count,
+                    raw_data = EXCLUDED.raw_data,
+                    updated_at = CURRENT_TIMESTAMP
+                RETURNING (xmax = 0) AS is_insert
+                """,
+                data.get("occupation"),
+                int(data.get("count") or 0),
+                date.today(),
+                raw_json,
+            )
+        elif "region" in category:
+            from datetime import date
+            result = await db.execute(
+                """
+                INSERT INTO defector_stats_region (region, count, as_of_date, raw_data)
+                VALUES ($1, $2, $3, $4::jsonb)
+                ON CONFLICT (region, as_of_date) DO UPDATE SET
+                    count = EXCLUDED.count,
+                    raw_data = EXCLUDED.raw_data,
+                    updated_at = CURRENT_TIMESTAMP
+                RETURNING (xmax = 0) AS is_insert
+                """,
+                data.get("region"),
+                int(data.get("count") or 0),
+                date.today(),
+                raw_json,
+            )
+        else:
+            return "skipped"
+
+        return "created"
+
+    async def _upsert_footprints_victim(self, db, data: dict) -> str:
+        """Insert or update FOOTPRINTS victim record."""
+        import json
+        result = await db.execute(
+            """
+            INSERT INTO footprints_victims (
+                external_id, name, name_korean, victim_type, gender,
+                age_at_incident, nationality, occupation, date_of_incident,
+                place_of_incident, last_known_location, current_status,
+                related_perpetrator_ids, related_proceeding_ids,
+                source_url, source_urls, metadata, language, fetch_date
+            )
+            VALUES ($1, $2, $3, $4::footprints_victim_type, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17::jsonb, $18, $19)
+            ON CONFLICT (external_id) DO UPDATE SET
+                name = EXCLUDED.name,
+                name_korean = EXCLUDED.name_korean,
+                current_status = EXCLUDED.current_status,
+                related_perpetrator_ids = EXCLUDED.related_perpetrator_ids,
+                related_proceeding_ids = EXCLUDED.related_proceeding_ids,
+                metadata = EXCLUDED.metadata,
+                fetch_date = EXCLUDED.fetch_date,
+                updated_at = CURRENT_TIMESTAMP
+            RETURNING (xmax = 0) AS is_insert
+            """,
+            data.get("external_id"),
+            data.get("name"),
+            data.get("name_korean"),
+            data.get("victim_type", "other"),
+            data.get("gender"),
+            data.get("age_at_incident"),
+            data.get("nationality"),
+            data.get("occupation"),
+            data.get("date_of_incident"),
+            data.get("place_of_incident"),
+            data.get("last_known_location"),
+            data.get("status"),
+            data.get("related_perpetrators", []),
+            data.get("related_proceedings", []),
+            data.get("source_url"),
+            data.get("source_urls", []),
+            json.dumps(data.get("metadata", {})),
+            data.get("language", "en"),
+            data.get("fetch_date"),
+        )
+        return "created"
+
+    async def _upsert_footprints_perpetrator(self, db, data: dict) -> str:
+        """Insert or update FOOTPRINTS perpetrator record."""
+        import json
+        result = await db.execute(
+            """
+            INSERT INTO footprints_perpetrators (
+                external_id, name, name_korean, perpetrator_type,
+                organization_name, position, period_description,
+                related_victim_ids, related_case_ids,
+                source_url, source_urls, metadata, language, fetch_date
+            )
+            VALUES ($1, $2, $3, $4::footprints_perpetrator_type, $5, $6, $7, $8, $9, $10, $11, $12::jsonb, $13, $14)
+            ON CONFLICT (external_id) DO UPDATE SET
+                name = EXCLUDED.name,
+                name_korean = EXCLUDED.name_korean,
+                position = EXCLUDED.position,
+                related_victim_ids = EXCLUDED.related_victim_ids,
+                metadata = EXCLUDED.metadata,
+                fetch_date = EXCLUDED.fetch_date,
+                updated_at = CURRENT_TIMESTAMP
+            RETURNING (xmax = 0) AS is_insert
+            """,
+            data.get("external_id"),
+            data.get("name"),
+            data.get("name_korean"),
+            data.get("perpetrator_type", "other"),
+            data.get("organization"),
+            data.get("position"),
+            data.get("period_active"),
+            data.get("related_victims", []),
+            data.get("related_cases", []),
+            data.get("source_url"),
+            data.get("source_urls", []),
+            json.dumps(data.get("metadata", {})),
+            data.get("language", "en"),
+            data.get("fetch_date"),
+        )
+        return "created"
+
+    async def _upsert_footprints_proceeding(self, db, data: dict) -> str:
+        """Insert or update FOOTPRINTS proceeding record."""
+        import json
+        result = await db.execute(
+            """
+            INSERT INTO footprints_proceedings (
+                external_id, title, title_korean, proceeding_type, forum_name,
+                date_initiated, status, outcome, description,
+                related_victim_ids, related_perpetrator_ids,
+                document_urls, source_url, source_urls, metadata, language, fetch_date
+            )
+            VALUES ($1, $2, $3, $4::footprints_proceeding_type, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb, $16, $17)
+            ON CONFLICT (external_id) DO UPDATE SET
+                title = EXCLUDED.title,
+                status = EXCLUDED.status,
+                outcome = EXCLUDED.outcome,
+                related_victim_ids = EXCLUDED.related_victim_ids,
+                related_perpetrator_ids = EXCLUDED.related_perpetrator_ids,
+                document_urls = EXCLUDED.document_urls,
+                metadata = EXCLUDED.metadata,
+                fetch_date = EXCLUDED.fetch_date,
+                updated_at = CURRENT_TIMESTAMP
+            RETURNING (xmax = 0) AS is_insert
+            """,
+            data.get("external_id"),
+            data.get("proceeding_title") or data.get("title"),
+            data.get("title_korean"),
+            data.get("proceeding_type", "other"),
+            data.get("forum"),
+            data.get("date_initiated"),
+            data.get("status"),
+            data.get("outcome"),
+            data.get("description"),
+            data.get("related_victims", []),
+            data.get("related_perpetrators", []),
+            [d.get("url") for d in data.get("documents", []) if d.get("url")],
+            data.get("source_url"),
+            data.get("source_urls", []),
+            json.dumps(data.get("metadata", {})),
+            data.get("language", "en"),
+            data.get("fetch_date"),
+        )
+        return "created"
 
     async def log_etl_job(
         self,
@@ -342,7 +577,7 @@ async def main():
     parser = argparse.ArgumentParser(description="NK-Russia TNR Tracker ETL Pipeline")
     parser.add_argument(
         "--connector",
-        choices=["all", "data.go.kr", "hudoc", "freedom_house", "un_ohchr", "icc", "osce"],
+        choices=["all", "data.go.kr", "hudoc", "freedom_house", "un_ohchr", "icc", "osce", "tjwg_footprints"],
         default="all",
         help="Connector to run",
     )

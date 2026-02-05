@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from packages.core.utils.config import get_settings
 from packages.core.utils.db import get_db, close_db
-from packages.api.routes import actors, cases, candidates, brief
+from packages.api.routes import actors, cases, candidates, brief, footprints
 
 settings = get_settings()
 
@@ -39,6 +39,7 @@ app = FastAPI(
 
     ## Data Sources
     - data.go.kr (통일부 북한이탈주민 API)
+    - TJWG FOOTPRINTS (NK Footprints 2.0)
     - HUDOC (European Court of Human Rights)
     - Freedom House Transnational Repression Reports
     - UN OHCHR, ICC, OSCE
@@ -60,6 +61,7 @@ app.include_router(actors.router, prefix="/actors", tags=["Actors"])
 app.include_router(cases.router, prefix="/cases", tags=["Cases"])
 app.include_router(candidates.router, prefix="/candidates", tags=["Sanctions Candidates"])
 app.include_router(brief.router, prefix="/brief", tags=["Briefing"])
+app.include_router(footprints.router, prefix="/footprints", tags=["TJWG FOOTPRINTS"])
 
 
 @app.get("/")
@@ -74,6 +76,7 @@ async def root():
             "cases": "/cases",
             "candidates": "/candidates",
             "brief": "/brief",
+            "footprints": "/footprints",
             "docs": "/docs",
             "health": "/health",
         },

@@ -4,6 +4,7 @@ from .data_go_kr_prsn import DataGoKrConnector
 from .hudoc import HUDOCConnector
 from .freedom_house import FreedomHouseConnector
 from .international_orgs import UNOHCHRConnector, ICCConnector, OSCEConnector
+from .tjwg_footprints import TJWGFootprintsConnector, FootprintsEntityType, FootprintsVictimType
 
 __all__ = [
     "DataGoKrConnector",
@@ -12,4 +13,7 @@ __all__ = [
     "UNOHCHRConnector",
     "ICCConnector",
     "OSCEConnector",
+    "TJWGFootprintsConnector",
+    "FootprintsEntityType",
+    "FootprintsVictimType",
 ]
