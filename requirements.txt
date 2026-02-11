@@ -38,3 +38,18 @@ pytest-cov>=4.1.0
 
 # Type checking
 mypy>=1.8.0
+
+# OSINT & Web Scraping
+scrapy>=2.11.0
+selenium>=4.25.0
+trafilatura>=1.6.0
+
+# AI & Analysis
+crewai>=1.0.0
+sentence-transformers>=2.7.0
+
+# Document Processing (extended)
+openpyxl>=3.1.0
+
+# Automation
+pyautogui>=0.9.54

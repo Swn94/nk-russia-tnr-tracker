@@ -5,6 +5,7 @@ from .hudoc import HUDOCConnector
 from .freedom_house import FreedomHouseConnector
 from .international_orgs import UNOHCHRConnector, ICCConnector, OSCEConnector
 from .tjwg_footprints import TJWGFootprintsConnector, FootprintsEntityType, FootprintsVictimType
+from .osint_web import CrawlAIConnector, WebExtractorConnector, ScrapyConnector
 
 __all__ = [
     "DataGoKrConnector",
@@ -16,4 +17,7 @@ __all__ = [
     "TJWGFootprintsConnector",
     "FootprintsEntityType",
     "FootprintsVictimType",
+    "CrawlAIConnector",
+    "WebExtractorConnector",
+    "ScrapyConnector",
 ]

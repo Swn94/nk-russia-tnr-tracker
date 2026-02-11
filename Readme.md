@@ -31,6 +31,13 @@ This project tracks human rights violations related to North Korea and Russia, d
 - **Sanctions Candidate Management**: Track and recommend individuals/entities for sanctions
 - **Briefing Generation**: Auto-generate comprehensive reports
 - **Interactive Dashboard**: Web-based visualization and analysis
+- **OSINT Tool Integration**: Connected to 24+ D:\repo tools via Claude Code skills
+  - Web scraping: Crawl4AI, WebExtractor, Scrapy, Selenium, BeautifulSoup
+  - AI analysis: CrewAI multi-agent, Anthropic API, sentence-transformers
+  - Document processing: marker-pdf, Docling, Doctra, openpyxl
+  - Security intel: nmap-unleashed, secintel-ai, project-codeguard
+  - Network monitoring: NetAlertX
+  - Agent frameworks: strix, allama, agent-lightning, MemoryOS
 
 ## Architecture
 
@@ -75,7 +82,7 @@ docker-compose up -d
 
 4. **Or install locally**
 ```bash
-pip install -e ".[dev]"
+pip install -e ".[all]"  # or: pip install -e ".[dev,osint,ai,scraping]"
 ```
 
 ### Running the API
@@ -126,6 +133,10 @@ See full API documentation at http://localhost:8000/docs
 | UN OHCHR | Web Scraping | Weekly |
 | ICC | Web Scraping | Event-based |
 | OSCE | Web Scraping | Weekly |
+| Crawl4AI | Web Crawler | On-demand |
+| WebExtractor | Data Extraction | On-demand |
+| Scrapy | Large-scale Scraping | Event-based |
+| Selenium | Browser Automation | On-demand |
 
 ## TNR Types (Freedom House Framework)
 
@@ -173,6 +184,7 @@ alembic upgrade head
 | DATABASE_URL | PostgreSQL connection string | Yes |
 | DATA_GO_KR_API_KEY | Korean government data API key | Yes |
 | ANTHROPIC_API_KEY | For AI-powered analysis | No |
+| OPENAI_API_KEY | For CrewAI agents | No |
 
 ## Contributing
 

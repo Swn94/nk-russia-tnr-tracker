@@ -20,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 dependencies = [
@@ -49,6 +50,29 @@ dev = [
 pdf = [
     "marker-pdf>=0.2.0",
     "pymupdf>=1.23.0",
+]
+osint = [
+    "scrapy>=2.11.0",
+    "selenium>=4.25.0",
+    "beautifulsoup4>=4.12.0",
+    "trafilatura>=1.6.0",
+    "shodan>=1.31.0",
+]
+ai = [
+    "crewai>=1.0.0",
+    "openai>=1.0.0",
+    "anthropic>=0.20.0",
+    "sentence-transformers>=2.7.0",
+    "numba>=0.60.0",
+]
+scraping = [
+    "crawl4ai>=0.3.0",
+    "playwright>=1.41.0",
+    "pyautogui>=0.9.54",
+    "openpyxl>=3.1.0",
+]
+all = [
+    "nk-russia-tnr-tracker[dev,pdf,osint,ai,scraping]",
 ]
 
 [project.scripts]
